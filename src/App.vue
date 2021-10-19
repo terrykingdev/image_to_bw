@@ -1,20 +1,26 @@
 <template>
   <div id="app">
     <div class="controls">
-      <div class="line"><input type="file" @change="processFiles"></div>
+      <div class="line">
+        <div class="select-file">{{filename}}
+          <input type="file" id="upload" hidden @change="processFiles">
+          <label for="upload"></label>
+          <div class="fake-button mi">&#xe2c6;</div>
+        </div>
+      </div>
       <div class="line">
         <label class="mr-8" for="width">Width</label><input name="width" type="number" v-model="width" @input="newwidth" maxlength="4" size="4">
         <label class="mh-8" for="height">Height</label><input name="height" type="number" v-model="height" @input="newheight" maxlength="4" size="4">
       </div>
       <div class="line">
         <label class="mr-8" for="bright">Brightness</label>
-        <button @click="decBrightness">-</button>
+        <button class="lrad radbtn mi" @click="decBrightness">&#xe15c;</button>
         <input class="slider" name="bright" v-model="brightness" type="range" min="-10" max="10" @change="update">
-        <button @click="incBrightness">+</button>
+        <button class="rrad radbtn mi" @click="incBrightness">&#xe147;</button>
         <label class="mh-8" for="cont">Contrast</label>
-        <button @click="decContrast">-</button>
+        <button class="lrad radbtn mi" @click="decContrast">&#xe15c;</button>
         <input class="slider"  name="cont" v-model="contrast" type="range" min="-10" max="10" @change="update">
-        <button class="mr-8" @click="incContrast">+</button>
+        <button class="rrad mr-8 radbtn mi" @click="incContrast">&#xe147;</button>
       </div>
       <div class="line">
         <select v-model="dither" @change="changeDither">
@@ -37,6 +43,7 @@ export default {
   },
   data: function () {
     return {
+      filename: "Select File...",
       processing: false,
       brightness: 0,
       contrast: 0,
@@ -246,6 +253,7 @@ export default {
       var input = event.target;
       // Ensure that you have a file before attempting to read it
       if (input.files && input.files[0]) {
+          this.filename = input.files[0].name
           // create a new FileReader to read this image and convert to base64 format
           var reader = new FileReader();
           // Define a callback function to run, when FileReader finishes its job
@@ -287,6 +295,10 @@ body,html{
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
 }
+.mi{
+  font-family: 'Material Icons';
+  font-size: 15px;
+}
 .mh-8{
   margin-left:8px;
   margin-right:8px;
@@ -297,17 +309,29 @@ body,html{
 .line{
   margin-bottom:8px;
 }
+.radbtn{
+  border: 0;
+  background-color: #FFF;
+}
+.lrad{
+  border-radius: 6px 0 0 6px;
+}
+.rrad{
+  border-radius: 0 6px 6px 0;
+}
 .controls{
   padding:8px;
   background-color: #555;
   border-radius: 10px;;
 }
 .slider {
+  border-radius: 0;
+  margin:0;
   position:relative;
-  top:6px;
+  top:1px;
   -webkit-appearance: none;
   width: 200px;
-  height: 21px;
+  height: 17px;
   background: #d3d3d3;
   outline: none;
   opacity: 0.7;
@@ -322,7 +346,7 @@ body,html{
   -webkit-appearance: none;
   appearance: none;
   width: 21px;
-  height: 21px;
+  height: 17px;
   background: #0f04aa;
   cursor: pointer;
 }
@@ -331,5 +355,36 @@ body,html{
   height: 21px;
   background: #0f04aa;
   cursor: pointer;
+}
+.select-file{
+  position:relative;
+  display:inline-block;
+  border: 1px solid #FFFFFF;
+  border-radius: 4px;
+  padding:2px;
+  width:300px;
+}
+.select-file label{
+font-size: 14px;
+  color: #FFF;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255,255,255,0.1);
+  padding: 3px 10px 4px 10px;
+  border-radius: 4px;
+}
+.select-file .fake-button{
+  display: inline;
+  position: absolute;
+  right: 0;
+  background-color: rgba(255,255,255,0.5);
+  color: #000;
+  padding: 3px 10px 4px 10px;
+  border-radius: 3px;
+  top: 0;
+  bottom: 0;
 }
 </style>
