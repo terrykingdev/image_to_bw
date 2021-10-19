@@ -1,4 +1,6 @@
-# image_to_bw
+# Image to Black & White
+
+Demo with Vue 2 to show loading an image and dithering to black and white. Has threshold, Bayer, Floyd Steinberg and Minimized Average Error dithering algorithms.
 
 ## Project setup
 ```
